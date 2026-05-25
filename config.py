@@ -1,5 +1,10 @@
 # Настройки PostgreSQL
-DB_URL = "postgresql://postgres:344415@localhost:5432/arbitrage_db"
+import os
+from dotenv import load_dotenv
+load_dotenv()  # reads .env from project root
+DB_URL = os.getenv("DB_URL")
+if not DB_URL:
+  raise ValueError("DB_URL is not set. Add it to .env")
 
 # Экономические константы
 CNY_KZT_RATE = 65.0
