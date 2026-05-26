@@ -48,11 +48,14 @@
    cd arbitrage_etl
 
 2. Установите зависимости:
+   Bash
    pip install -r requirements.txt
 
 3. Создайте конфигурационный файл .env на основе .env.example:
+   Ini, TOML
    DB_URL=postgresql://username:password@localhost:5432/arbitrage_db
    GEMINI_API_KEY=your_gemini_api_key
    
 4. Запустите конвейер:
+   Bash
    python main.py
