@@ -7,7 +7,7 @@ if not DB_URL:
   raise ValueError("DB_URL is not set. Add it to .env")
 
 # Экономические константы
-CNY_KZT_RATE = 65.0
+CNY_KZT_RATE = 75.0
 ALIPAY_FEE = 0.03          # Комиссия эквайринга 3%
 CARGO_RATE_KG = 1500.0     # Тариф логистики
 KASPI_COMMISSION = 0.109   # Комиссия маркетплейса

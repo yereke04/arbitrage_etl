@@ -46,3 +46,29 @@ def fetch_kaspi_price(product_id: str, city_id: str = "710000000") -> float:
         print(f"[{product_id}] Сетевая ошибка: {e}")
         
     return 149999.0 # Fallback цена при сбое
+
+def get_realtime_cny_kzt_rate(fallback_rate: float = 75.0, bank_spread: float = 1.068) -> float:
+    """
+    Получение актуального курса CNY/KZT с учетом комиссии банка за конвертацию.
+    bank_spread = 1.068 (наценка банка/Alipay ~6.8% к биржевому курсу)
+    """
+    try:
+        url = "https://open.er-api.com/v6/latest/CNY"
+        response = requests.get(url, timeout=5)
+        
+        if response.status_code == 200:
+            data = response.json()
+            pure_rate = data.get("rates", {}).get("KZT")
+            if pure_rate:
+                # Умножаем чистый биржевой курс на наценку банка
+                real_acquiring_rate = float(pure_rate) * bank_spread
+                print(f"[Курс Валют] Биржа: {float(pure_rate):.2f} ₸ | Списание с карты (с учетом спреда): {real_acquiring_rate:.2f} ₸")
+                return real_acquiring_rate
+        else:
+            print(f"[Курс Валют] API недоступен (Код {response.status_code}).")
+            
+    except Exception as e:
+        print(f"[Курс Валют] Сетевая ошибка: {e}")
+        
+    print(f"[Курс Валют] Используется резервный курс: {fallback_rate}")
+    return fallback_rate
